@@ -6,14 +6,12 @@ import datetime
 import platform
 import webbrowser
 
-# Fichiers utilisés
 WATCHLIST_FILE = "watchlist.csv"
 HISTORIQUE_FILE = "films_deja_vus.csv"
 FAVORIS_FILE = "favoris.txt"
 DERNIER_FILM_FILE = "dernier_film.txt"
 SCORE_FILE = "score.txt"
 
-# Couleurs ANSI
 RESET = "\033[0m"
 BOLD = "\033[1m"
 CYAN = "\033[96m"
@@ -91,7 +89,6 @@ def choisir_film(films, deja_vus):
 
     film = random.choice(films_restants)
     print(f"\n{CYAN}🎬 Film choisi : {film['Name']} ({film.get('Year','?')}){RESET}")
-    # Sauvegarder dans dernier_film.txt pour verrouillage
     with open(DERNIER_FILM_FILE, "w", encoding="utf-8") as f:
         f.write(film["Name"])
     return film
@@ -103,7 +100,6 @@ def valider_film(films):
         return
     with open(DERNIER_FILM_FILE, "r", encoding="utf-8") as f:
         nom_film = f.read().strip()
-    # Chercher film complet dans watchlist
     film = next((f for f in films if f["Name"] == nom_film), None)
     if film:
         sauvegarder_historique(film)
@@ -142,7 +138,6 @@ def main():
 
     while True:
         clear_terminal()
-        # Vérifier si un film est verrouillé
         film_verrouille = None
         if os.path.exists(DERNIER_FILM_FILE):
             with open(DERNIER_FILM_FILE, "r") as f:
@@ -204,3 +199,4 @@ def main():
         else:
             print(f"{RED}❌ Choix invalide.{RESET}")
             time.sleep(1)
+
